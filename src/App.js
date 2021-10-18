@@ -1,4 +1,3 @@
-import CategoryList from "./categories";
 import Header from "./header";
 import React from "react";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
@@ -18,7 +17,6 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <Header />
-            <CategoryList />
         </ThemeProvider>
     );
 }
