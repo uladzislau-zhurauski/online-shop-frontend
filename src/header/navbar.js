@@ -1,14 +1,9 @@
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import React from "react";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import {NAVBAR_LINKS_NAMES} from "../consts";
+import {AccountButton, CartButton, FavoritesButton, NAVBAR_LINKS_NAMES} from "../consts";
 import {styled} from "@mui/material/styles";
 
 
@@ -42,30 +37,6 @@ const NavBarLinks = () => {
         </Stack>
     );
 }
-
-const AccountButton = () => (
-    <Tooltip title="Аккаунт">
-        <IconButton aria-label="home" size="large" color="primary">
-            <PersonOutlineOutlinedIcon fontSize="large" />
-        </IconButton>
-    </Tooltip>
-);
-
-const FavoritesButton = () => (
-    <Tooltip title="Список желаний">
-        <IconButton aria-label="wishlist" size="large" color="primary">
-            <FavoriteBorderOutlinedIcon fontSize="large" />
-        </IconButton>
-    </Tooltip>
-);
-
-const CartButton = () => (
-    <Tooltip title="Корзина">
-        <IconButton aria-label="cart" size="large" color="primary">
-            <ShoppingCartOutlinedIcon fontSize="large" />
-        </IconButton>
-    </Tooltip>
-);
 
 const NavBarButtons = () => (
     <Stack direction="row" ml={5}>

@@ -64,7 +64,7 @@ const SearchInput = () => (
     </Box>
 );
 
-const HeaderPart = () => (
+const UpperHeader = () => (
     <Stack
         direction="row"
         justifyContent="space-between"
@@ -76,4 +76,4 @@ const HeaderPart = () => (
     </Stack>
 );
 
-export default HeaderPart;
+export default UpperHeader;

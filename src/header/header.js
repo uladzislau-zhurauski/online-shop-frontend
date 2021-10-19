@@ -1,11 +1,11 @@
 import AppBar from "@mui/material/AppBar";
-import HeaderPart from "./header_part";
 import NavBar from "./navbar";
 import React from "react";
+import UpperHeader from "./upper_header";
 
 const Header = () => (
     <AppBar position="static" sx={{ bgcolor: 'white' }}>
-        <HeaderPart />
+        <UpperHeader />
         <NavBar />
     </AppBar>
 );
