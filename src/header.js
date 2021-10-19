@@ -25,70 +25,62 @@ const IconRow = styled('div')`
     flex: 1;
 `
 
-function Contacts() {
-    return (
-        <Stack direction="row">
-            <Stack direction="column">
-                <IconRow>
-                    <TelephoneIcon sx={{ mx: 1 }} color="primary" fontSize="small" />
-                    <TelegramIcon sx={{ mx: 1 }} color="primary" fontSize="small" />
-                    <WhatsAppIcon sx={{ mx: 1 }} color="primary" fontSize="small" />
-                </IconRow>
-                <IconRow>
-                    <MailIcon color="primary" fontSize="small" />
-                </IconRow>
-            </Stack>
-            <Stack direction="column" justifyContent="flex-start" sx={{ ml: 2 }}>
-                <Typography variant="body1" color="primary">{MASTERS_PHONE_NUMBER}</Typography>
-                <Typography variant="body1" color="primary">{MASTERS_EMAIL}</Typography>
-            </Stack>
+const Contacts = () => (
+    <Stack direction="row">
+        <Stack direction="column">
+            <IconRow>
+                <TelephoneIcon sx={{ mx: 1 }} color="primary" fontSize="small" />
+                <TelegramIcon sx={{ mx: 1 }} color="primary" fontSize="small" />
+                <WhatsAppIcon sx={{ mx: 1 }} color="primary" fontSize="small" />
+            </IconRow>
+            <IconRow>
+                <MailIcon color="primary" fontSize="small" />
+            </IconRow>
         </Stack>
-    );
-}
-
-function SearchInput() {
-    return (
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '30%', m: 1 }}>
-            <TextField
-                fullWidth
-                hiddenLabel
-                size="small"
-                id="search-input"
-                placeholder="Что вы ищете?"
-                variant="outlined"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon color="primary" />
-                        </InputAdornment>
-                    ),
-                }}
-            />
-        </Box>
-    );
-}
-
-function HeaderComponent() {
-    return (
-        <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{ px: 3, my: 1 }}
-        >
-            <Contacts />
-            <SearchInput />
+        <Stack direction="column" justifyContent="flex-start" sx={{ ml: 2 }}>
+            <Typography variant="body1" color="primary">{MASTERS_PHONE_NUMBER}</Typography>
+            <Typography variant="body1" color="primary">{MASTERS_EMAIL}</Typography>
         </Stack>
-    );
-}
+    </Stack>
+);
 
-function NavLink(props) {
-    return (
-        <Typography className={props.className} color="primary" variant="h6">
-            <Link href={props.href}>{props.children}</Link>
-        </Typography>
-    );
-}
+const SearchInput = () => (
+    <Box sx={{ display: 'flex', alignItems: 'center', width: '30%', m: 1 }}>
+        <TextField
+            fullWidth
+            hiddenLabel
+            size="small"
+            id="search-input"
+            placeholder="Что вы ищете?"
+            variant="outlined"
+            InputProps={{
+                startAdornment: (
+                    <InputAdornment position="start">
+                        <SearchIcon color="primary" />
+                    </InputAdornment>
+                ),
+            }}
+        />
+    </Box>
+);
+
+const HeaderComponent = () => (
+    <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ px: 3, my: 1 }}
+    >
+        <Contacts />
+        <SearchInput />
+    </Stack>
+);
+
+const NavLink = (props) => (
+    <Typography className={props.className} color="primary" variant="h6">
+        <Link href={props.href}>{props.children}</Link>
+    </Typography>
+);
 
 const ToolBarStyled = styled(Toolbar)(
     ({ theme }) => `
@@ -103,7 +95,7 @@ const ToolBarStyled = styled(Toolbar)(
     `,
 );
 
-function NavBar() {
+const NavBar = () => {
     let navBarLinks = [];
     NAVBAR_LINKS_NAMES.forEach((name) => {
         navBarLinks.push(<NavLink href="#" key={name}>{name}</NavLink>);
@@ -135,13 +127,11 @@ function NavBar() {
     );
 }
 
-function Header() {
-    return (
-        <AppBar position="static" sx={{ bgcolor: 'white' }}>
-            <HeaderComponent />
-            <NavBar />
-        </AppBar>
-    );
-}
+const Header = () => (
+    <AppBar position="static" sx={{ bgcolor: 'white' }}>
+        <HeaderComponent />
+        <NavBar />
+    </AppBar>
+);
 
 export default Header;
