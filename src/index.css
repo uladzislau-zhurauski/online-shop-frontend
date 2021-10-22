@@ -7,6 +7,10 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -15,8 +19,4 @@ code {
 :root {
     --main-background-color: #9DEDDA;
     --main-text-color: #749F95;
-}
-
-*::selection {
-    background-color: var(--main-background-color);
 }
