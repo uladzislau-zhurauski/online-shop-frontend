@@ -1,3 +1,4 @@
+import CategoryList from "./categories";
 import Header from "./header/header";
 import React from "react";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
@@ -21,6 +22,7 @@ theme = responsiveFontSizes(theme);
 const App = () => (
     <ThemeProvider theme={theme}>
         <Header />
+        <CategoryList />
     </ThemeProvider>
 );
 
