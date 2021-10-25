@@ -161,7 +161,7 @@ const Hexagon = (props) => (
     </HexagonItem>
 );
 
-const Heading = (props) => (
+export const Heading = (props) => (
     <Typography
         sx={{ my: 3 }}
         variant="h5"
