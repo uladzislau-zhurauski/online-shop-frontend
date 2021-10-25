@@ -10,6 +10,7 @@ export const MASTERS_EMAIL = 'kitaeska@gmail.com'
 export const NAVBAR_LINKS_NAMES = ["Главная", "Обо мне", "Оплата и Доставка", "Отзывы", "Контакты", "Оставить заявку"];
 export const MAIN_TEXT_COLOR = '#749F95';
 export const MAIN_BACKGROUND_COLOR = '#9DEDDA';
+export const MAIN_PAGE_HEADING = "Изделия ручной работы";
 
 
 export const AccountButton = () => (

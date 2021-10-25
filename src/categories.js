@@ -1,6 +1,7 @@
 import './index.css'
 import React from "react";
 import Typography from "@mui/material/Typography";
+import {MAIN_PAGE_HEADING} from "./consts";
 import {styled} from '@mui/material/styles';
 
 
@@ -160,18 +161,16 @@ const Hexagon = (props) => (
     </HexagonItem>
 );
 
-const Heading = () => {
-    const title = "Изделия ручной работы";
-    return (
-        <Typography
-            sx={{ my: 3, textAlign: 'center' }}
-            variant="h5"
-            color="primary"
-        >
-            {title.toUpperCase()}
-        </Typography>
-    );
-}
+const Heading = (props) => (
+    <Typography
+        sx={{ my: 3 }}
+        variant="h5"
+        color="primary"
+        align="center"
+    >
+        {props.text.toUpperCase()}
+    </Typography>
+);
 
 const CategoryGrid = () => {
     const categoryTitles = ["Фотоальбомы", "Планеры", "Открытки", "Тревелбуки", "Кулинарные книги",
@@ -187,7 +186,7 @@ const CategoryGrid = () => {
 
 const CategoryList = () => (
     <main>
-        <Heading />
+        <Heading text={MAIN_PAGE_HEADING} />
         <CategoryGrid />
     </main>
 );
