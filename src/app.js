@@ -14,6 +14,10 @@ let theme = createTheme({
         },
         secondary: {
             main: MAIN_BACKGROUND_COLOR,
+        },
+        text: {
+            primary: "rgba(116, 159, 149, 1)",
+            secondary: "rgba(116, 159, 149, 0.8)",
         }
     },
 });
