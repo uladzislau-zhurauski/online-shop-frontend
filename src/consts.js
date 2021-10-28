@@ -4,6 +4,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import React from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Tooltip from "@mui/material/Tooltip";
+import {styled} from "@mui/material/styles";
 
 export const MASTERS_PHONE_NUMBER = '+375 44 550 90 59'
 export const MASTERS_EMAIL = 'kitaeska@gmail.com'
@@ -35,4 +36,10 @@ export const CartButton = () => (
             <ShoppingCartOutlinedIcon fontSize="large" />
         </IconButton>
     </Tooltip>
+);
+
+export const BoldText = styled('span')(
+    ({ theme }) => `
+        font-weight: ${theme.typography.fontWeightBold};
+    `,
 );
