@@ -104,7 +104,7 @@ const InStock = () => (
         color="success.main"
         variant="h5"
     >
-        "В наличии"
+        В наличии
     </Typography>
 );
 
@@ -113,7 +113,7 @@ const NotInStock = () => (
         color="warning.main"
         variant="h5"
     >
-        "Нет в наличии"
+        Нет в наличии
     </Typography>
 );
 
