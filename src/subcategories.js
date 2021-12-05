@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import React from "react";
 import {Heading} from "./categories";
 import {styled} from '@mui/material/styles';
+import { Link as RouterLink, useParams } from "react-router-dom";
 
 
 const SubcategoryGrid = (props) => (
@@ -52,7 +53,7 @@ const SubcategoryCard = (props) => {
     const imageAlt = props.subcategory.image.alt;
     return (
         <CardStyled>
-            <CardActionArea sx={{ px: 2, pb: 2 }}>
+            <CardActionArea sx={{ px: 2, pb: 2 }} component={RouterLink} to={`/category/${props.categoryId}/products`}>
                 <SubcategoryCardHeader title={name} />
                 <SubcategoryCardImage image={imagePath} alt={imageAlt} />
             </CardActionArea>
@@ -63,22 +64,39 @@ const SubcategoryCard = (props) => {
 const GridItems = (props) => (
     Array.from(props.subcategories).map((subcategory) => (
         <Grid item key={subcategory.name}>
-            <SubcategoryCard subcategory={subcategory} />
+            <SubcategoryCard subcategory={subcategory} categoryId={props.categoryId} />
         </Grid>
     ))
 );
 
 const SubcategoryCards = (props) => (
     <SubcategoryGrid>
-        <GridItems subcategories={props.subcategories} />
+        <GridItems subcategories={props.subcategories} categoryId={props.categoryId} />
     </SubcategoryGrid>
 );
 
-const SubcategoryList = (props) => (
-    <main>
-        <Heading text={props.categoryName} />
-        <SubcategoryCards subcategories={props.subcategories} />
-    </main>
-);
+const SubcategoryList = () => {
+    const params = useParams();
+    const categoryId = params.categoryId; // use parseInt
+    const category = {
+        name: "Фотоальбомы",
+        subcategories: [
+            {name: "Оформленные фотоальбомы", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
+            {name: "Фотоальбомы с печатными страницами", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
+            {name: "Фотоальбомы с чистыми страницами", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
+            {name: "asdfasdf", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
+            {name: "askdfjalsdkf", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
+            {name: "asdlsljdf huihjkhkjhkjhk sdkfjlasdjf ljadslkfjal sjfdladksjflkaj asjdkfjlaksdjlf jdlaksjfljasldk", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
+            {name: "askdfjalsdkfj", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
+            {name: "aksldkjf", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}}
+        ]
+    }; // TODO make request to the backend
+    return (
+        <main>
+            <Heading text={category.name} />
+            <SubcategoryCards subcategories={category.subcategories} categoryId={categoryId} />
+        </main>
+    );
+}
 
 export default SubcategoryList;

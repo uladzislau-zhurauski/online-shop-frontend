@@ -11,6 +11,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import {BoldText} from "./consts";
 import {styled} from '@mui/material/styles';
+import {useParams} from "react-router-dom";
 
 
 const ProductGrid = (props) => (
@@ -60,10 +61,10 @@ const ProductBreadcrumbs = (props) => {
 const ImageCarousel = (props) => {
     const images = props.images.map((image) => (
         {
-            original: image.img,
-            thumbnail: image.img,
-            originalAlt: image.alt,
-            thumbnailAlt: image.alt
+            original: image.image,
+            thumbnail: image.image,
+            originalAlt: image.tip,
+            thumbnailAlt: image.tip
         }
     ));
     return (
@@ -199,13 +200,28 @@ const ProductCharacteristics = (props) => (
     </Grid>
 );
 
-const ProductDetail = (props) => (
-    <main>
-        <ProductGrid>
-            <FirstProductDetail product={props.product} />
-            <ProductCharacteristics product={props.product} />
-        </ProductGrid>
-    </main>
-);
+const ProductDetail = () => {
+    const params = useParams();
+    const productId = params.productId; // use parseInt
+    const product = {
+        category: {name: "Sporting Goods", parentCategory: {name: "Sport", parentCategory: null}},
+        price: "49.99",
+        stock: 1,
+        name: "Football",
+        images: [{image: "/img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "/img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "/img/OnPaste.20211023-184945.png", tip: "alt"}],
+        description: "lasdkjflaksjdflajsd jlasjdflkajsl kjfalsdkjf lkajsdl kjfalsd jflas jdflk jasld fjla;sdj fl;jasdl; fjlsjd l;fjaslkdjfa;lj",
+        materials: "lasdkj, lasdkfj, alsdkfj, alskdfj",
+        size: "12*17",
+        weight: "3"
+    }; // TODO make request to the backend
+    return (
+        <main>
+            <ProductGrid>
+                <FirstProductDetail product={product} />
+                <ProductCharacteristics product={product} />
+            </ProductGrid>
+        </main>
+    );
+}
 
 export default ProductDetail;

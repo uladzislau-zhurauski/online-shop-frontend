@@ -3,6 +3,7 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import {MAIN_PAGE_HEADING} from "./consts";
 import {styled} from '@mui/material/styles';
+import { Link as RouterLink } from "react-router-dom";
 
 
 const HexagonContainer = styled('ul')`
@@ -96,7 +97,7 @@ const HexagonShape = styled('div')`
     }
 `
 
-const HexagonLink = styled('a')`
+const HexagonLink = styled(RouterLink)`
     display: block;
     width: 100%;
     height: 100%;
@@ -149,7 +150,7 @@ const HexagonTitle = styled('div')`
 const Hexagon = (props) => (
     <HexagonItem>
         <HexagonShape>
-            <HexagonLink href="#">
+            <HexagonLink to={`/category/${props.id}`}>
                 <HexagonBackground />
                 <HexagonTitle>
                     <Typography sx={{ px: 1 }} variant="h6" color="primary">
@@ -173,13 +174,19 @@ export const Heading = (props) => (
 );
 
 const CategoryGrid = () => {
-    const categoryTitles = ["Фотоальбомы", "Планеры", "Открытки", "Тревелбуки", "Кулинарные книги",
-        "Обложки для документов", "Свадебные товары"];
+    // TODO make request to the backend
+    const categoryTitles = {1: "Фотоальбомы", 2: "Планеры", 3: "Открытки", 4: "Тревелбуки", 5: "Кулинарные книги",
+        6: "Обложки для документов", 7: "Свадебные товары"};
+    const hexagons = [];
+    for (const categoryId in categoryTitles) {
+        hexagons.push(<Hexagon title={categoryTitles[categoryId]} id={categoryId} key={categoryId} />);
+    }
     return (
         <HexagonContainer>
-            {Array.from(categoryTitles).map((title, index) => (
-                <Hexagon title={title} key={index} />
-            ))}
+            {/*{Array.from(categoryTitles).map((title, index) => (*/}
+            {/*    <Hexagon title={title} key={index} />*/}
+            {/*))}*/}
+            {hexagons}
         </HexagonContainer>
     );
 }
