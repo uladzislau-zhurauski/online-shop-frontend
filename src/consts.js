@@ -7,10 +7,9 @@ import Tooltip from "@mui/material/Tooltip";
 import {styled} from "@mui/material/styles";
 import { Link as RouterLink } from "react-router-dom";
 
-export const MASTERS_PHONE_NUMBER = '+375 44 550 90 59'
-export const MASTERS_EMAIL = 'kitaeska@gmail.com'
-// export const NAVBAR_LINKS_NAMES = ["Главная", "Обо мне", "Оплата и Доставка", "Отзывы", "Контакты", "Оставить заявку"];
-export const NAVBAR_LINKS_NAMES = {
+export const MASTERS_PHONE_NUMBER = '+375 44 550 90 59';
+export const MASTERS_EMAIL = 'kitaeska@gmail.com';
+export const NAVBAR_LINKS = {
     "Главная": "/",
     "Оплата и Доставка": "/payment-and-delivery/",
     "Отзывы": "/feedback/",

@@ -6,13 +6,13 @@ import Grid from "@mui/material/Grid";
 import ImageGallery from 'react-image-gallery';
 import Link from "@mui/material/Link";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import {BoldText} from "./consts";
 import {styled} from '@mui/material/styles';
-import {useParams} from "react-router-dom";
-
+import {Link as RouterLink, useParams} from "react-router-dom";
+import axios from "axios";
 
 const ProductGrid = (props) => (
     <Grid
@@ -33,21 +33,28 @@ const ProductName = (props) => (
 );
 
 const BreadcrumbLink = (props) => (
-    <Link href={props.href} color="inherit" underline="hover">
+    <Link component={RouterLink} to={props.href} color="inherit" underline="hover">
         {props.children}
     </Link>
 );
 
 const ProductBreadcrumbs = (props) => {
     let category = props.category;
-    let categoryNames = [category.name];
-    while (category.parentCategory !== null) {
-        categoryNames.push(category.parentCategory.name);
-        category = category.parentCategory;
+    category.child_categories = [];
+    let parentCategories = [category];
+    while (category.parent_category !== null) {
+        parentCategories.push(category.parent_category);
+        category = category.parent_category;
     }
-    const categoryLinks = categoryNames.map((name) => (
-        <BreadcrumbLink href="/" key={name}>{name}</BreadcrumbLink>
-    )).reverse();
+    const categoryLinks = parentCategories.map((category) => {
+        const href = category.child_categories.length === 0
+            ? `/category/${category.id}/products`
+            : `/category/${category.id}`;
+        return (
+            <BreadcrumbLink href={href} key={category.id}>
+                {category.name}
+            </BreadcrumbLink>);
+    }).reverse();
 
     return (
         <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
@@ -78,18 +85,34 @@ const ImageCarousel = (props) => {
     );
 }
 
+const NoImageStyled = styled('img')(
+    ({ theme }) => `
+        max-width: 100%;
+        height: auto;
+        border-radius: ${theme.shape.borderRadius * 3}px;
+    `,
+);
+
+export const NoImage = () => (
+    <NoImageStyled src="/img/no_image_available.png" alt="No image available for this product"
+                   width={600} height={600} />
+);
+
 const FirstProductDetail = (props) => (
-    <Grid item>
+    <Grid item xs={12} md={6}>
         <ProductName name={props.product.name} />
         <ProductBreadcrumbs productName={props.product.name} category={props.product.category} />
         <Box sx={{ maxWidth: "40rem", my: 2 }}>
-            <ImageCarousel images={props.product.images} />
+            {props.product.images.length
+                ? <ImageCarousel images={props.product.images} />
+                : <NoImage />
+            }
         </Box>
     </Grid>
 );
 
 const DescriptionHeader = () => (
-    <Typography color="primary" variant="h3">
+    <Typography color="primary" variant="h3" gutterBottom>
         Описание
     </Typography>
 );
@@ -127,7 +150,7 @@ const IsStocked = (props) => {
 
 const ProductCharacteristicsHeader = (props) => (
     <Stack
-        direction="row"
+        direction={{ xs: "column", md: "row" }}
         justifyContent="space-around"
         alignItems="center"
         sx={{ mb: 2 }}
@@ -146,11 +169,20 @@ const ProductDescription = (props) => (
     </Typography>
 );
 
-const ProductMaterials = (props) => (
-    <Typography color="primary" variant="body1">
-        <BoldText>Материалы:</BoldText> {props.materials}
-    </Typography>
-);
+const ProductMaterials = (props) => {
+    if (props.materials.length === 0) return null;
+
+    const materials = Array.from(props.materials).map((material, index) => {
+        if (index + 1 === props.materials.length) return material.name;
+        return `${material.name}, `;
+    });
+
+    return (
+        <Typography color="primary" variant="body1">
+            <BoldText>Материалы:</BoldText> {materials}
+        </Typography>
+    );
+}
 
 const ProductSize = (props) => (
     <Typography color="primary" variant="body1">
@@ -188,7 +220,7 @@ const OrderButton = () => (
 );
 
 const ProductCharacteristics = (props) => (
-    <Grid item>
+    <Grid item xs={12} md={6}>
         <ProductCharacteristicsHeader product={props.product} />
         <ProductDescription description={props.product.description} />
         <Box sx={{ my: 3 }}>
@@ -201,19 +233,21 @@ const ProductCharacteristics = (props) => (
 );
 
 const ProductDetail = () => {
+    const [product, setProduct] = useState({});
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8000/products/${productId}/`)
+            .then(
+                res => {
+                    setProduct(res.data);
+                })
+            .catch(err => {console.log(err)});
+    }, []);
     const params = useParams();
-    const productId = params.productId; // use parseInt
-    const product = {
-        category: {name: "Sporting Goods", parentCategory: {name: "Sport", parentCategory: null}},
-        price: "49.99",
-        stock: 1,
-        name: "Football",
-        images: [{image: "/img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "/img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "/img/OnPaste.20211023-184945.png", tip: "alt"}],
-        description: "lasdkjflaksjdflajsd jlasjdflkajsl kjfalsdkjf lkajsdl kjfalsd jflas jdflk jasld fjla;sdj fl;jasdl; fjlsjd l;fjaslkdjfa;lj",
-        materials: "lasdkj, lasdkfj, alsdkfj, alskdfj",
-        size: "12*17",
-        weight: "3"
-    }; // TODO make request to the backend
+    // const categoryId = params.categoryId;
+    const productId = params.productId;
+    if (Object.keys(product).length === 0) return null;
+
     return (
         <main>
             <ProductGrid>

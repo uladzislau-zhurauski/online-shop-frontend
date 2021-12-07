@@ -12,7 +12,6 @@ import PaymentAndDelivery from "./payment_and_delivery";
 import { Routes, Route } from "react-router-dom";
 import NotFound from "./404";
 
-
 let theme = createTheme({
     palette: {
         primary: {

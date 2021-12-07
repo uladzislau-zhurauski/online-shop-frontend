@@ -4,11 +4,11 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from '@mui/material/CardMedia';
 import Grid from "@mui/material/Grid";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Heading} from "./categories";
 import {styled} from '@mui/material/styles';
 import { Link as RouterLink, useParams } from "react-router-dom";
-
+import axios from "axios";
 
 const SubcategoryGrid = (props) => (
     <Grid
@@ -27,7 +27,11 @@ const CardStyled = styled(Card)(
     ({ theme }) => `
         max-width: 380px;
         border-radius: ${theme.shape.borderRadius * 3}px;
-        background-color: ${theme.palette.secondary.main}; 
+        background-color: ${theme.palette.secondary.main};
+        transition: filter 0.5s;
+        :hover {
+            filter: brightness(85%);
+        }
     `,
 );
 
@@ -49,11 +53,14 @@ const SubcategoryCardImage = (props) => (
 
 const SubcategoryCard = (props) => {
     const name = props.subcategory.name;
-    const imagePath = props.subcategory.image.path;
-    const imageAlt = props.subcategory.image.alt;
+    const imagePath = props.subcategory.image?.path || "/img/OnPaste.20211023-184945.png";
+    const imageAlt = props.subcategory.image?.alt || "alt";
+    const href = props.subcategory.child_categories.length === 0
+        ? `/category/${props.subcategory.id}/products`
+        : `/category/${props.subcategory.id}`;
     return (
         <CardStyled>
-            <CardActionArea sx={{ px: 2, pb: 2 }} component={RouterLink} to={`/category/${props.categoryId}/products`}>
+            <CardActionArea sx={{ px: 2, pb: 2 }} component={RouterLink} to={href}>
                 <SubcategoryCardHeader title={name} />
                 <SubcategoryCardImage image={imagePath} alt={imageAlt} />
             </CardActionArea>
@@ -76,25 +83,25 @@ const SubcategoryCards = (props) => (
 );
 
 const SubcategoryList = () => {
+    const [category, setCategory] = useState({});
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8000/categories/${categoryId}/`)
+            .then(
+                res => {
+                    setCategory(res.data);
+                })
+            .catch(err => {console.log(err)});
+    }, []);
+
     const params = useParams();
-    const categoryId = params.categoryId; // use parseInt
-    const category = {
-        name: "Фотоальбомы",
-        subcategories: [
-            {name: "Оформленные фотоальбомы", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
-            {name: "Фотоальбомы с печатными страницами", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
-            {name: "Фотоальбомы с чистыми страницами", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
-            {name: "asdfasdf", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
-            {name: "askdfjalsdkf", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
-            {name: "asdlsljdf huihjkhkjhkjhk sdkfjlasdjf ljadslkfjal sjfdladksjflkaj asjdkfjlaksdjlf jdlaksjfljasldk", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
-            {name: "askdfjalsdkfj", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}},
-            {name: "aksldkjf", image: {path: "/img/OnPaste.20211023-184945.png", alt: "alt"}}
-        ]
-    }; // TODO make request to the backend
+    const categoryId = params.categoryId;
+    if (Object.keys(category).length === 0) return null;
+
     return (
         <main>
             <Heading text={category.name} />
-            <SubcategoryCards subcategories={category.subcategories} categoryId={categoryId} />
+            <SubcategoryCards subcategories={category.child_categories} categoryId={categoryId} />
         </main>
     );
 }

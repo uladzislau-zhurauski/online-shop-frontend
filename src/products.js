@@ -2,7 +2,7 @@ import './index.css'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from '@mui/material';
 import {styled} from '@mui/material/styles';
@@ -10,6 +10,9 @@ import Grid from "@mui/material/Grid";
 import CardHeader from "@mui/material/CardHeader";
 import {Heading} from "./categories";
 import {Link as RouterLink, useParams} from "react-router-dom";
+import axios from "axios";
+import Container from "@mui/material/Container";
+import {NoImage} from "./product_detail";
 
 
 const ProductGrid = (props) => (
@@ -29,7 +32,11 @@ const CardStyled = styled(Card)(
     ({ theme }) => `
         max-width: 380px;
         border-radius: ${theme.shape.borderRadius * 3}px;
-        background-color: ${theme.palette.secondary.main}; 
+        background-color: ${theme.palette.secondary.main};
+        transition: filter 0.5s;
+        :hover {
+            filter: brightness(85%);
+        }
     `,
 );
 
@@ -66,7 +73,9 @@ const ProductCard = (props) => {
             <CardActionArea sx={{ px: 2 }} component={RouterLink}
                             to={`/category/${props.categoryId}/products/${props.product.id}`}>
                 <ProductCardHeader title={name} />
-                <ProductCardImage image={image.image} alt={image.tip} />
+                {image
+                    ? <ProductCardImage image={image.image} alt={image.tip} />
+                    : <NoImage />}
                 <ProductCardPrice price={price} />
             </CardActionArea>
         </CardStyled>
@@ -87,17 +96,30 @@ const ProductCards = (props) => (
     </ProductGrid>
 );
 
+const ThereAreNoProducts = () => (
+    <Container>
+        <Typography variant="h4" color="text.primary" align="center" sx={{ mt: 5 }}>
+            В данной категории пока нет товаров
+        </Typography>
+    </Container>
+);
+
 const ProductList = () => {
+    const [products, setProducts] = useState(null);
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8000/category/${categoryId}/`)
+            .then(
+                res => {
+                    setProducts(res.data);
+                })
+            .catch(err => {console.log(err)});
+    }, []);
     const params = useParams();
-    const categoryId = params.categoryId; // use parseInt
-    const products = [
-        {id: 3, category: {name: "Sporting Goods"}, price: "49.99", stock: 1, name: "Football", images: [{image: "/img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "./img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "./img/OnPaste.20211023-184945.png", tip: "alt"}], description: "lasdkjflaksjdflajsd jlasjdflkajsl kjfalsdkjf lkajsdl kjfalsd jflas jdflk jasld fjla;sdj fl;jasdl; fjlsjd l;fjaslkdjfa;lj", materials: "lasdkj, lasdkfj, alsdkfj, alskdfj", size: "12*17", weight: "3"},
-        {id: 4, category: {name: "Sporting Goods"}, price: "9.99", stock: 2, name: "Baseball", images: [{image: "/img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "./img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "./img/OnPaste.20211023-184945.png", tip: "alt"}], description: "lasdkjflaksjdflajsd jlasjdflkajsl kjfalsdkjf lkajsdl kjfalsd jflas jdflk jasld fjla;sdj fl;jasdl; fjlsjd l;fjaslkdjfa;lj", materials: "lasdkj, lasdkfj, alsdkfj, alskdfj", size: "12*17", weight: "3"},
-        {id: 5, category: {name: "Sporting Goods"}, price: "29.99", stock: 0, name: "Basketball", images: [{image: "/img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "./img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "./img/OnPaste.20211023-184945.png", tip: "alt"}], description: "lasdkjflaksjdflajsd jlasjdflkajsl kjfalsdkjf lkajsdl kjfalsd jflas jdflk jasld fjla;sdj fl;jasdl; fjlsjd l;fjaslkdjfa;lj", materials: "lasdkj, lasdkfj, alsdkfj, alskdfj", size: "12*17", weight: "3"},
-        {id: 35, category: {name: "Electronics"}, price: "99.99", stock: 2, name: "iPod Touch", images: [{image: "/img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "./img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "./img/OnPaste.20211023-184945.png", tip: "alt"}], description: "lasdkjflaksjdflajsd jlasjdflkajsl kjfalsdakdsjflaksjdfl jasldjflaksjdflkjaslkdjflkajsdl fkjasldjflkasjdlkf jaslkdjf laks jdflkja skldafjlkajsdlfkjalsdfkjf lkajsdl kjfalsd jflas jdflk jasld fjla;sdj fl;jasdl; fjlsjd l;fjaslkdjfa;lj", materials: "lasdkj, lasdkfj, alsdkfj, alskdfj", size: "12*17", weight: "3"},
-        {id: 231, category: {name: "Electronics"}, price: "399.99", stock: 1, name: "iPhone 5", images: [{image: "\\img\\IMG_20181209_134828.jpg", tip: "alt"}, {image: ".\\img\\IMG_20181209_134828.jpg", tip: "alt"}, {image: ".\\img\\IMG_20181209_134828.jpg", tip: "alt"}], description: "lasdkjflaksjdflajsd jlasjdflkajsl kjfalsdkjf lkajsdl kjfalsd jflas jdflk jasld fjla;sdj fl;jasdl; fjlsjd l;fjaslkdjfa;lj", materials: "lasdkj, lasdkfj, alsdkfj, alskdfj", size: "12*17", weight: "3"},
-        {id: 87, category: {name: "Electronics"}, price: "199.99", stock: 0, name: "Nexus 7", images: [{image: "/img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "./img/OnPaste.20211023-184945.png", tip: "alt"}, {image: "./img/OnPaste.20211023-184945.png", tip: "alt"}], description: "lasdkjflaksjdflajsd jlasjdflkajsl kjfalsdkjf lkajsdl kjfalsd jflas jdflk jasld fjla;sdj fl;jasdl; fjlsjd l;fjaslkdjfa;lj", materials: "lasdkj, lasdkfj, alsdkfj, alskdfj", size: "12*17", weight: "3"}
-    ]; // TODO make request to the backend
+    const categoryId = params.categoryId;
+    if (!products) return null;
+    if (products.length === 0) return <ThereAreNoProducts />;
+
     return (
         <main>
             <Heading text={products[0].category.name} />

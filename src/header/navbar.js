@@ -3,7 +3,7 @@ import React from "react";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import {AccountButton, CartButton, FavoritesButton, NAVBAR_LINKS_NAMES} from "../consts";
+import {AccountButton, CartButton, FavoritesButton, NAVBAR_LINKS} from "../consts";
 import {styled} from "@mui/material/styles";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -28,12 +28,9 @@ const NavLink = (props) => (
 );
 
 const NavBarLinks = () => {
-    let navBarLinks = [];
-    // NAVBAR_LINKS_NAMES.forEach((name) => {
-    //     navBarLinks.push(<NavLink href="#" key={name}>{name}</NavLink>);
-    // });
-    for (const link in NAVBAR_LINKS_NAMES) {
-        navBarLinks.push(<NavLink href={NAVBAR_LINKS_NAMES[link]} key={link}>{link}</NavLink>);
+    const navBarLinks = [];
+    for (const link in NAVBAR_LINKS) {
+        navBarLinks.push(<NavLink href={NAVBAR_LINKS[link]} key={link}>{link}</NavLink>);
     }
     return (
         <Stack direction="row" spacing={5}>
