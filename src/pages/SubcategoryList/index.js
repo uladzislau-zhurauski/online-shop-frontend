@@ -1,14 +1,13 @@
-import './index.css'
-import Card from '@mui/material/Card';
+import '../../index.css'
 import CardActionArea from "@mui/material/CardActionArea";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from '@mui/material/CardMedia';
 import Grid from "@mui/material/Grid";
 import React, {useEffect, useState} from "react";
-import {Heading} from "./categories";
-import {styled} from '@mui/material/styles';
-import { Link as RouterLink, useParams } from "react-router-dom";
+import Heading from "../../components/Heading";
+import {Link as RouterLink, useParams} from "react-router-dom";
 import axios from "axios";
+import {CardStyled} from "./styles";
 
 const SubcategoryGrid = (props) => (
     <Grid
@@ -21,18 +20,6 @@ const SubcategoryGrid = (props) => (
     >
         {props.children}
     </Grid>
-);
-
-const CardStyled = styled(Card)(
-    ({ theme }) => `
-        max-width: 380px;
-        border-radius: ${theme.shape.borderRadius * 3}px;
-        background-color: ${theme.palette.secondary.main};
-        transition: filter 0.5s;
-        :hover {
-            filter: brightness(85%);
-        }
-    `,
 );
 
 const SubcategoryCardHeader = (props) => (
@@ -84,6 +71,10 @@ const SubcategoryCards = (props) => (
 
 const SubcategoryList = () => {
     const [category, setCategory] = useState({});
+
+    const params = useParams();
+    const categoryId = params.categoryId;
+
     useEffect(() => {
         axios
             .get(`http://localhost:8000/categories/${categoryId}/`)
@@ -92,10 +83,8 @@ const SubcategoryList = () => {
                     setCategory(res.data);
                 })
             .catch(err => {console.log(err)});
-    }, []);
+    }, [categoryId]);
 
-    const params = useParams();
-    const categoryId = params.categoryId;
     if (Object.keys(category).length === 0) return null;
 
     return (

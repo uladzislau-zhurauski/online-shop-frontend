@@ -1,18 +1,17 @@
-import './index.css'
-import Card from '@mui/material/Card';
+import '../../index.css'
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from '@mui/material';
-import {styled} from '@mui/material/styles';
+import {CardActionArea} from '@mui/material';
 import Grid from "@mui/material/Grid";
 import CardHeader from "@mui/material/CardHeader";
-import {Heading} from "./categories";
 import {Link as RouterLink, useParams} from "react-router-dom";
 import axios from "axios";
 import Container from "@mui/material/Container";
-import {NoImage} from "./product_detail";
+import Heading from "../../components/Heading";
+import NoImage from "../../components/NoImage";
+import {CardStyled} from "./styles";
 
 
 const ProductGrid = (props) => (
@@ -26,18 +25,6 @@ const ProductGrid = (props) => (
     >
         {props.children}
     </Grid>
-);
-
-const CardStyled = styled(Card)(
-    ({ theme }) => `
-        max-width: 380px;
-        border-radius: ${theme.shape.borderRadius * 3}px;
-        background-color: ${theme.palette.secondary.main};
-        transition: filter 0.5s;
-        :hover {
-            filter: brightness(85%);
-        }
-    `,
 );
 
 const ProductCardHeader = (props) => (
@@ -106,6 +93,10 @@ const ThereAreNoProducts = () => (
 
 const ProductList = () => {
     const [products, setProducts] = useState(null);
+
+    const params = useParams();
+    const categoryId = params.categoryId;
+
     useEffect(() => {
         axios
             .get(`http://localhost:8000/category/${categoryId}/`)
@@ -114,9 +105,8 @@ const ProductList = () => {
                     setProducts(res.data);
                 })
             .catch(err => {console.log(err)});
-    }, []);
-    const params = useParams();
-    const categoryId = params.categoryId;
+    }, [categoryId]);
+
     if (!products) return null;
     if (products.length === 0) return <ThereAreNoProducts />;
 

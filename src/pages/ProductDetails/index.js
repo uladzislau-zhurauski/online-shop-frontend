@@ -1,7 +1,6 @@
 import "react-image-gallery/styles/css/image-gallery.css";
 import Box from "@mui/material/Box";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Button from '@mui/material/Button';
 import Grid from "@mui/material/Grid";
 import ImageGallery from 'react-image-gallery';
 import Link from "@mui/material/Link";
@@ -9,10 +8,11 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import React, {useEffect, useState} from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import {BoldText} from "./consts";
-import {styled} from '@mui/material/styles';
+import BoldText from "../../components/BoldText";
 import {Link as RouterLink, useParams} from "react-router-dom";
 import axios from "axios";
+import NoImage from "../../components/NoImage";
+import {OrderButtonStyled} from "./styles";
 
 const ProductGrid = (props) => (
     <Grid
@@ -84,19 +84,6 @@ const ImageCarousel = (props) => {
         />
     );
 }
-
-const NoImageStyled = styled('img')(
-    ({ theme }) => `
-        max-width: 100%;
-        height: auto;
-        border-radius: ${theme.shape.borderRadius * 3}px;
-    `,
-);
-
-export const NoImage = () => (
-    <NoImageStyled src="/img/no_image_available.png" alt="No image available for this product"
-                   width={600} height={600} />
-);
 
 const FirstProductDetail = (props) => (
     <Grid item xs={12} md={6}>
@@ -196,20 +183,6 @@ const ProductWeight = (props) => (
     </Typography>
 );
 
-const OrderButtonStyled = styled(Button)(
-    ({ theme }) => `
-        color: ${theme.palette.primary.main};
-        background-color: ${theme.palette.secondary.main};
-        font-size: 1.2rem;
-        font-weight: ${theme.typography.fontWeightBold};
-        transition: all 0.5s;
-        &:hover {
-            background-color: ${theme.palette.secondary.main};
-            filter: brightness(90%);
-        }
-    `,
-);
-
 const OrderButton = () => (
     <OrderButtonStyled
         variant="contained"
@@ -234,6 +207,10 @@ const ProductCharacteristics = (props) => (
 
 const ProductDetail = () => {
     const [product, setProduct] = useState({});
+
+    const params = useParams();
+    const productId = params.productId;
+
     useEffect(() => {
         axios
             .get(`http://localhost:8000/products/${productId}/`)
@@ -242,10 +219,8 @@ const ProductDetail = () => {
                     setProduct(res.data);
                 })
             .catch(err => {console.log(err)});
-    }, []);
-    const params = useParams();
-    // const categoryId = params.categoryId;
-    const productId = params.productId;
+    }, [productId]);
+
     if (Object.keys(product).length === 0) return null;
 
     return (

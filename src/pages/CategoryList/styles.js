@@ -1,13 +1,7 @@
-import './index.css'
-import React, {useEffect, useState} from "react";
-import Typography from "@mui/material/Typography";
-import {MAIN_PAGE_HEADING} from "./consts";
-import {styled} from '@mui/material/styles';
-import { Link as RouterLink } from "react-router-dom";
-import axios from "axios";
+import {styled} from "@mui/material/styles";
+import {Link as RouterLink} from "react-router-dom";
 
-
-const HexagonContainer = styled('ul')`
+export const HexagonContainer = styled('ul')`
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
@@ -41,7 +35,7 @@ const HexagonContainer = styled('ul')`
     }
 `
 
-const HexagonItem = styled('li')`
+export const HexagonItem = styled('li')`
     visibility: hidden;
     outline: 1px solid transparent; /* fix for jagged edges in FF on hover transition */
     transition: all 0.5s;
@@ -80,7 +74,7 @@ const HexagonItem = styled('li')`
     }
 `
 
-const HexagonShape = styled('div')`
+export const HexagonShape = styled('div')`
     position: absolute;
     width: 96%;
     padding-bottom: 110.851%; /* =  width / sin(60) */
@@ -98,7 +92,7 @@ const HexagonShape = styled('div')`
     }
 `
 
-const HexagonLink = styled(RouterLink)`
+export const HexagonLink = styled(RouterLink)`
     display: block;
     width: 100%;
     height: 100%;
@@ -107,7 +101,7 @@ const HexagonLink = styled(RouterLink)`
     cursor: pointer;
 `
 
-const HexagonBackground = styled('div')(
+export const HexagonBackground = styled('div')(
     ({ theme }) => `
         display: block;
         width: 100%;
@@ -138,7 +132,7 @@ const HexagonBackground = styled('div')(
     `,
 );
 
-const HexagonTitle = styled('div')`
+export const HexagonTitle = styled('div')`
     display: flex;
     width: 100%;
     height: 100%;
@@ -147,69 +141,3 @@ const HexagonTitle = styled('div')`
     text-align: center;
     color: white;
 `
-
-const Hexagon = (props) => {
-    const href = props.category.child_categories.length === 0
-        ? `/category/${props.category.id}/products`
-        : `/category/${props.category.id}`;
-    return (
-        <HexagonItem>
-            <HexagonShape>
-                <HexagonLink to={href}>
-                    <HexagonBackground />
-                    <HexagonTitle>
-                        <Typography sx={{ px: 1 }} variant="h6" color="primary">
-                            {props.category.name.toUpperCase()}
-                        </Typography>
-                    </HexagonTitle>
-                </HexagonLink>
-            </HexagonShape>
-        </HexagonItem>
-    );
-}
-
-export const Heading = (props) => (
-    <Typography
-        sx={{ my: 3 }}
-        variant="h5"
-        color="primary"
-        align="center"
-    >
-        {props.text.toUpperCase()}
-    </Typography>
-);
-
-const CategoryGrid = (props) => {
-    const categories = props.categories.filter((category) => (
-        category.parent_category === null
-    ));
-    return (
-        <HexagonContainer>
-            {Array.from(categories).map((category, index) => (
-                <Hexagon category={category} key={index} />
-            ))}
-        </HexagonContainer>
-    );
-}
-
-const CategoryList = () => {
-    const [categories, setCategories] = useState([]);
-    useEffect(() => {
-        axios
-            .get("http://localhost:8000/categories/")
-            .then(
-                res => {
-                    setCategories(res.data);
-                })
-            .catch(err => {console.log(err)});
-    }, []);
-
-    return (
-        <main>
-            <Heading text={MAIN_PAGE_HEADING} />
-            <CategoryGrid categories={categories} />
-        </main>
-    );
-}
-
-export default CategoryList;

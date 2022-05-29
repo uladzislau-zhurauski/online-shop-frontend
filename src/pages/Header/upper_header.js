@@ -5,17 +5,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import Stack from '@mui/material/Stack';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {MASTERS_EMAIL, MASTERS_PHONE_NUMBER} from "../consts";
-import {MailIcon, TelegramIcon, TelephoneIcon, WhatsAppIcon} from "../icons";
-import {styled} from '@mui/material/styles';
+import {MASTERS_EMAIL, MASTERS_PHONE_NUMBER} from "../../consts";
+import {MailIcon, TelegramIcon, TelephoneIcon, WhatsAppIcon} from "../../icons";
+import {IconRow} from "./styles";
 
-
-const IconRow = styled('div')`
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex: 1;
-`
 
 const IconsContacts = () => (
     <Stack direction="column">

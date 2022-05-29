@@ -1,25 +1,14 @@
 import Link from "@mui/material/Link";
 import React from "react";
 import Stack from "@mui/material/Stack";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import {AccountButton, CartButton, FavoritesButton, NAVBAR_LINKS} from "../consts";
-import {styled} from "@mui/material/styles";
-import { Link as RouterLink } from "react-router-dom";
+import {NAVBAR_LINKS} from "../../consts";
+import {Link as RouterLink} from "react-router-dom";
+import {ToolBarStyled} from "./styles";
+import AccountButton from "../../components/AccountButton";
+import FavoritesButton from "../../components/FavoritesButton";
+import CartButton from "../../components/CartButton";
 
-
-const ToolBarStyled = styled(Toolbar)(
-    ({ theme }) => `
-        background: linear-gradient(180deg, 
-                                    rgba(216, 249, 241, 0.15) 0%, 
-                                    rgba(157, 237, 218, 0.69) 45.97%, 
-                                    rgba(216, 249, 241, 0.15) 100%);
-        display: flex;
-        justify-content: center;
-        border-top: 1px solid ${theme.palette.primary.main};
-        border-bottom: 1px solid ${theme.palette.primary.main};
-    `,
-);
 
 const NavLink = (props) => (
     <Typography className={props.className} color="primary" variant="h6">
