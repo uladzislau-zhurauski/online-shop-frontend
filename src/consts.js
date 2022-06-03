@@ -1,5 +1,6 @@
 export const MASTERS_PHONE_NUMBER = '+375 44 550 90 59';
 export const MASTERS_EMAIL = 'kitaeska@gmail.com';
+export const MASTERS_USERNAME = 'kitaeska';
 export const NAVBAR_LINKS = {
     "Главная": "/",
     "Оплата и Доставка": "/payment-and-delivery/",
