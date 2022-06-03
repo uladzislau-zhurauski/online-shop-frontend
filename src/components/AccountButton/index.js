@@ -7,7 +7,7 @@ import React from "react";
 
 const AccountButton = () => (
     <Tooltip title="Аккаунт">
-        <IconButton component={RouterLink} to="account" aria-label="home" size="large" color="primary">
+        <IconButton component={RouterLink} to="sign-in" aria-label="home" size="large" color="primary">
             <PersonOutlineOutlinedIcon fontSize="large" />
         </IconButton>
     </Tooltip>
