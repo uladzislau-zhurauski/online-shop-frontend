@@ -1,9 +1,8 @@
-import {styled} from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 
-
 export const OrderButtonStyled = styled(Button)(
-    ({ theme }) => `
+  ({ theme }) => `
         color: ${theme.palette.primary.main};
         background-color: ${theme.palette.secondary.main};
         font-size: 1.2rem;
@@ -13,5 +12,5 @@ export const OrderButtonStyled = styled(Button)(
             background-color: ${theme.palette.secondary.main};
             filter: brightness(90%);
         }
-    `,
+    `
 );

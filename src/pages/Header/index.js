@@ -4,10 +4,10 @@ import React from "react";
 import UpperHeader from "./upper_header";
 
 const Header = () => (
-    <AppBar position="static" sx={{ bgcolor: "white", boxShadow: "none" }}>
-        <UpperHeader />
-        <NavBar />
-    </AppBar>
+  <AppBar position="static" sx={{ bgcolor: "white", boxShadow: "none" }}>
+    <UpperHeader />
+    <NavBar />
+  </AppBar>
 );
 
 export default Header;
