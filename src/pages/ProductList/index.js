@@ -54,12 +54,15 @@ const ProductCard = (props) => {
   const name = props.product.name;
   const price = props.product.price;
   const image = props.product.images[0];
+  const categoryId = props.categoryId
+    ? props.categoryId
+    : props.product.category.id;
   return (
     <CardStyled>
       <CardActionArea
         sx={{ px: 2 }}
         component={RouterLink}
-        to={`/category/${props.categoryId}/products/${props.product.id}`}
+        to={`/category/${categoryId}/products/${props.product.id}`}
       >
         <ProductCardHeader title={name} />
         {image ? (
@@ -99,24 +102,32 @@ const ProductList = () => {
 
   const params = useParams();
   const categoryId = params.categoryId;
+  let url,
+    headingText = null;
+  if (categoryId) {
+    url = `http://localhost:8000/category/${categoryId}/`;
+  } else {
+    url = `http://localhost:8000/products/`;
+    headingText = "Изделия ручной работы";
+  }
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/category/${categoryId}/`)
+      .get(url)
       .then((res) => {
         setProducts(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [categoryId]);
+  }, [categoryId, url]);
 
   if (!products) return null;
   if (products.length === 0) return <ThereAreNoProducts />;
 
   return (
     <main>
-      <Heading text={products[0].category.name} />
+      <Heading text={headingText || products[0].category.name} />
       <ProductCards products={products} categoryId={categoryId} />
     </main>
   );
