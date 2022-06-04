@@ -12,6 +12,7 @@ import SignUp from "./pages/SignUp";
 const MainContent = () => (
   <Routes>
     <Route path="/" element={<CategoryList />} />
+    <Route path="all-products" element={<ProductList />} />
     <Route path="payment-and-delivery" element={<PaymentAndDelivery />} />
     <Route path="category/:categoryId" element={<SubcategoryList />} />
     <Route path="category/:categoryId/products" element={<ProductList />} />

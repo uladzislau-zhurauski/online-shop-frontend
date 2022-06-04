@@ -3,6 +3,7 @@ export const MASTERS_EMAIL = "kitaeska@gmail.com";
 export const MASTERS_USERNAME = "kitaeska";
 export const NAVBAR_LINKS = {
   Главная: "/",
+  "Все товары": "/all-products/",
   "Оплата и Доставка": "/payment-and-delivery/",
   Отзывы: "/feedback/",
   "Оставить заявку": "/checkout/",
